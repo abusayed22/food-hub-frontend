@@ -16,7 +16,7 @@ export function HeroSection() {
       {/* Background Image with Dark Overlay */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/hero-background.jpg" // Replace with your actual image path
+          src="https://img.freepik.com/premium-photo/grilled-chicken-wings-with-fresh-salad_1075784-1530.jpg?w=1060" 
           layout="fill"
           objectFit="cover"
           alt="Fine dining experience"
