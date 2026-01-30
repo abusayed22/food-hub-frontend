@@ -16,7 +16,7 @@ export function HeroSection() {
       {/* Background Image with Dark Overlay */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="https://img.freepik.com/premium-photo/grilled-chicken-wings-with-fresh-salad_1075784-1530.jpg?w=1060" 
+          src="https://img.freepik.com/free-photo/roasted-pork-steak-vegetables-plate_1150-45291.jpg?t=st=1769778660~exp=1769782260~hmac=f16b225d4d631fddc90a59f9b4dbe9ef22cb80c087eed7c33a66baca7994e7ad&w=740" 
           layout="fill"
           objectFit="cover"
           alt="Fine dining experience"
@@ -26,7 +26,7 @@ export function HeroSection() {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center text-white">
+      <div className="relative z-10 container mx-auto px-4 mt-20 flex flex-col items-center text-center text-white">
         
         {/* Subtitle */}
         <h2 className="text-gold text-xs md:text-sm uppercase tracking-[0.2em] mb-6 font-semibold">
