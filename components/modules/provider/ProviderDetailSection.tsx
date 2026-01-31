@@ -21,7 +21,7 @@ const provider = {
   id: "1",
   name: "Le Bernardin",
   type: "French Fine Dining",
-  coverImage: "/images/restaurant-bg.jpg", // Replace with your image
+  coverImage: "https://img.freepik.com/free-photo/lavash-rolls-top-view-table_140725-7368.jpg?t=st=1769786235~exp=1769789835~hmac=f4c0f45a3e7934c7fc71a6a9d310bd4d9c9ab908dc4a9dd7fa9f5cfe10c0629e&w=740", 
   logo: "/images/restaurant-logo.jpg", // Replace with your image
   description: "Elite French restaurant offering refined seafood in a luxury setting. Led by chef Eric Ripert, Le Bernardin is a testament to the art of fine dining, focusing on the freshest ingredients and sustainable sourcing.",
   rating: 4.9,
