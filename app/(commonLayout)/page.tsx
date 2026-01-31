@@ -3,6 +3,7 @@ import { FeaturedEstablishments } from '@/components/modules/homepage/FeaturedEs
 import { HeroSection } from '@/components/modules/homepage/Hero-section'
 import { HowWork } from '@/components/modules/homepage/HowWork'
 import { SignatureDishesSection } from '@/components/modules/homepage/SigninatureDishSection'
+import { TestimonialSection } from '@/components/modules/homepage/TestimonialSection'
 import React from 'react'
 
 const CommonPage = () => {
@@ -13,6 +14,7 @@ const CommonPage = () => {
       <HowWork />
       <FeaturedEstablishments />
       <SignatureDishesSection />
+      <TestimonialSection />
     </div>
   )
 }
