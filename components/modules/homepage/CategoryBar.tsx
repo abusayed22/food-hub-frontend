@@ -1,51 +1,70 @@
 // components/category-bar.tsx
-import * as React from "react";
-import Link from "next/link";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
+"use client"
 
-// The categories from your image
+import * as React from "react"
+import { Utensils, Coffee, Wine, Leaf, Flame, Sparkles, WheatOff } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import { Button } from "@/components/ui/button"
+
 const categories = [
-  "French",
-  "Japanese",
-  "Italian",
-  "Contemporary",
-  "Seafood",
-  "Steakhouse",
-];
+  { id: "all", label: "All Menu", icon: Utensils },
+  { id: "starters", label: "Starters", icon: Sparkles },
+  { id: "mains", label: "Mains", icon: Flame },
+  { id: "desserts", label: "Desserts", icon: Coffee },
+  { id: "drinks", label: "Drinks", icon: Wine },
+  { id: "vegan", label: "Vegan", icon: Leaf },
+  { id: "gluten-free", label: "Gluten Free", icon: WheatOff },
+  { id: "specials", label: "Chef's Specials", icon: Sparkles },
+]
 
 export function CategoryBar() {
+  const [activeId, setActiveId] = React.useState("all")
+
   return (
-    <div className="w-full border-b border-white/10 bg-black/40 backdrop-blur-md">
-      <div className="container mx-auto">
-        <ScrollArea className="w-full whitespace-nowrap">
-          <div className="flex w-max items-center justify-center space-x-2 py-6 md:w-full md:justify-center">
-            {categories.map((category, index) => (
-              <div key={category} className="flex items-center">
-                <Link
-                  href={`/category/${category.toLowerCase()}`}
-                  className={cn(
-                    "text-lg font-medium tracking-wide text-[#C0A975] transition-colors hover:text-white md:text-xl",
-                    "px-4 py-2" // Add hit area for easier clicking
-                  )}
-                >
-                  {category}
-                </Link>
-                {/* Render the separator dot unless it's the last item */}
-                {index < categories.length - 1 && (
-                  <span
-                    className="text-[#C0A975]/40 select-none text-xs"
-                    aria-hidden="true"
+    // WRAPPER: Changed to sticky/absolute or just style the background here
+    <div className="w-full border-b border-white/10 bg-black backdrop-blur-md z-40">
+      <div className="container mx-auto px-4 md:px-12 py-6">
+        <Carousel opts={{ align: "start", dragFree: true }} className="w-full flex justify-center">
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {categories.map((category) => {
+              const isActive = activeId === category.id
+              const Icon = category.icon
+
+              return (
+                <CarouselItem key={category.id} className="pl-2 md:pl-4 basis-auto">
+                  <Button
+                    onClick={() => setActiveId(category.id)}
+                    variant="outline"
+                    className={cn(
+                      "rounded-full border px-6 h-10 transition-all duration-300 flex items-center gap-2 font-medium tracking-wide backdrop-blur-sm",
+                      // Active: Gold background, less transparent
+                      isActive
+                        ? "bg-[#C0A975]/90 text-black border-[#C0A975]" 
+                        : "bg-black/40 text-zinc-300 border-white/10 hover:bg-black/60 hover:text-white hover:border-[#C0A975]"
+                    )}
                   >
-                    •
-                  </span>
-                )}
-              </div>
-            ))}
+                    <Icon size={14} className={isActive ? "text-black" : "text-[#C0A975]"} />
+                    {category.label}
+                  </Button>
+                </CarouselItem>
+              )
+            })}
+          </CarouselContent>
+          
+          <div className="hidden md:block">
+            <CarouselPrevious className="left-[-2.5rem] bg-black/50 border-[#C0A975]/30 text-[#C0A975] hover:bg-[#C0A975] hover:text-black backdrop-blur-md" />
+            <CarouselNext className="right-[-2.5rem] bg-black/50 border-[#C0A975]/30 text-[#C0A975] hover:bg-[#C0A975] hover:text-black backdrop-blur-md" />
           </div>
-          <ScrollBar orientation="horizontal" className="invisible" />
-        </ScrollArea>
+        </Carousel>
       </div>
     </div>
-  );
+  )
 }

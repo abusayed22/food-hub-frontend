@@ -87,13 +87,16 @@ export function Navbar() {
                     <div className="hidden md:flex items-center">
                         <CartSheet />
                         <Button
+                        asChild
                             variant="ghost"
                             className={cn(
                                 "text-xs lg:text-sm font-medium tracking-[0.2em] uppercase hover:bg-transparent hover:text-white",
                                 goldColorClass
                             )}
                         >
-                            SIGN IN
+                            <Link href="/login">
+            SIGN IN
+        </Link>
                         </Button>
                     </div>
 

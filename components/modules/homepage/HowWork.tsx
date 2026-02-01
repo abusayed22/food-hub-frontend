@@ -32,7 +32,7 @@ export function HowWork() {
     <section className="bg-zinc-950 py-24 relative overflow-hidden">
       
       {/* Decorative top border similar to image context */}
-      <div className="absolute top-0 left-0 w-full h-px bg-white/10" />
+      {/* <div className="absolute top-0 left-0 w-full h-px bg-white/10" /> */}
       <div className="absolute bottom-0 left-0 w-full h-px bg-white/10" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
