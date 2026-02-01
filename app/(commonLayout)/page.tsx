@@ -6,7 +6,12 @@ import { SignatureDishesSection } from '@/components/modules/homepage/Signinatur
 import { TestimonialSection } from '@/components/modules/homepage/TestimonialSection'
 import React from 'react'
 
-const CommonPage = () => {
+const CommonPage = async() => {
+
+  await new Promise((resolve) => setTimeout(resolve,2000))
+
+   throw new Error('Failed to fetch data')
+
   return (
     <div>
       <HeroSection />
