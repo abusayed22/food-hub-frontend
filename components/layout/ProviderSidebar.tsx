@@ -17,17 +17,21 @@ import {
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { AuthUser } from "@/constant/type"
+import { useLogout } from "@/hooks/sign-out"
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard/settings" },
-  { icon: ClipboardList, label: "Orders", href: "/dashboard/order-management", badge: "12" }, // Example badge
+  { icon: ClipboardList, label: "My Orders", href: "/dashboard/order-management", badge: "12" }, // Example badge
   { icon: UtensilsCrossed, label: "Menu Management", href: "/dashboard/menu-management" },
-  { icon: Users, label: "Customers", href: "/admin/customers" },
-  { icon: BarChart3, label: "Analytics", href: "/admin/analytics" },
+  // { icon: Users, label: "Customers", href: "/admin/customers" },
+  // { icon: BarChart3, label: "Analytics", href: "/admin/analytics" },
 ]
 
-export function ProviderSidebar() {
+export function ProviderSidebar({user}:{user:AuthUser |null}) {
   const pathname = usePathname()
+  const {logout,isLoading:logoutLoading} = useLogout()
+  
 
   return (
     <aside className="flex h-screen w-72 flex-col border-r border-white/10 bg-zinc-950 text-white">
@@ -94,7 +98,7 @@ export function ProviderSidebar() {
             <Settings size={18} />
             <span>Settings</span>
           </Link>
-          <button className="flex w-full items-center gap-3 rounded-sm px-3 py-2.5 text-left text-sm font-medium text-zinc-400 transition-colors hover:bg-red-900/10 hover:text-red-400">
+          <button onClick={() => logout()} className="flex w-full items-center gap-3 rounded-sm px-3 py-2.5 text-left text-sm font-medium text-zinc-400 transition-colors hover:bg-red-900/10 hover:text-red-400">
             <LogOut size={18} />
             <span>Logout</span>
           </button>
@@ -108,8 +112,8 @@ export function ProviderSidebar() {
              <Store size={16} />
           </div>
           <div className="flex flex-col overflow-hidden">
-            <span className="truncate text-sm font-medium text-white">Le Bernardin</span>
-            <span className="truncate text-xs text-zinc-500">Provider ID: #8821</span>
+            <span className="truncate text-sm font-medium text-white capitalize">{user?.name}</span>
+            <span className="truncate text-xs text-zinc-500 capitalize">{`${user?.role} ID: #${user?.id}`}</span>
           </div>
         </div>
       </div>

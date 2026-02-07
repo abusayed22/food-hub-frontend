@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Image from "next/image"
-import { Star, Plus } from "lucide-react"
+import { Star, Plus, ArrowRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -14,7 +14,8 @@ import {
   CardHeader,
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { meals } from "../meal-items/MealItemSection"
+import Link from "next/link"
+// import { meals } from "../meal-items/MealItemSection"
 
 // Define the gold color constant
 const goldColor = "#C0A975"
@@ -31,13 +32,9 @@ interface Meal {
   isNew?: boolean
 }
 
-// Mock Data for Signature Dishes (from image_4.png)
 
 
-// Categories for the filter
-const categories = ["ALL", "STARTERS", "MAINS", "DESSERTS"]
-
-export function SignatureDishesSection() {
+export function SignatureDishesSection({meals}:{meals:Meal[]}) {
   // State to manage the currently active category
   const [activeCategory, setActiveCategory] = React.useState("ALL")
 
@@ -45,33 +42,20 @@ export function SignatureDishesSection() {
     <section className="bg-zinc-950 py-16">
       <div className="container mx-auto px-4">
         
-        {/* 1. Section Header (from image_1.png and image_4.png) */}
-        <div className="text-center mb-12">
-          <h3 className="text-xs font-medium tracking-[0.2em] text-[#C0A975] uppercase mb-4">
-            Culinary Masterpieces
-          </h3>
-          <h2 className="text-4xl md:text-5xl font-serif font-medium text-[#C0A975] mb-6">
-            Signature Dishes
+        <div className="mb-10 flex items-center justify-between">
+          <h2 className="text-3xl font-bold tracking-tight text-[#C0A975] font-serif md:text-4xl">
+            Signitured Establishments
           </h2>
-          <div className="h-px w-24 bg-[#C0A975] mx-auto mb-10 opacity-50"></div>
-          
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-6 md:gap-10">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={cn(
-                  "text-sm font-medium tracking-widest uppercase transition-colors relative pb-2",
-                  activeCategory === category
-                    ? "text-[#C0A975] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-[#C0A975]"
-                    : "text-zinc-500 hover:text-[#C0A975]"
-                )}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
+          <Button
+            asChild
+            variant="ghost"
+            className="group hidden p-0 text-sm font-medium tracking-widest text-[#C0A975] hover:bg-transparent hover:text-[#D4B988] md:inline-flex"
+          >
+            <Link href="/collections">
+              VIEW ALL COLLECTIONS
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Button>
         </div>
 
         {/* 2. Meal Cards Grid (from image_4.png) */}
@@ -102,7 +86,7 @@ export function SignatureDishesSection() {
                     style={{ color: goldColor }}
                   >
                     <Star className="h-3 w-3 fill-current" />
-                    {meal.rating.toFixed(1)}
+                    {meal.rating}
                   </Badge>
                 </div>
               </CardHeader>

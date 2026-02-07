@@ -17,7 +17,7 @@ const eslintConfig = defineConfig([
     files: ["**/*.{js,jsx,ts,tsx}"],
     rules: {
       "react/no-children-prop": ["error", { 
-        "allowFunctions": false 
+        "allowFunctions": true 
       }]
     }
   }

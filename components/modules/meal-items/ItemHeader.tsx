@@ -3,12 +3,13 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { CategoryData } from "@/constant/type"
 
-// Define the categories from the image
-const categories = ["ALL", "STARTERS", "MAINS", "DESSERTS"]
 
-export function ItemHeader() {
-  // State to manage the currently active category
+
+
+export function ItemHeader({categories}:{categories: CategoryData[]}) {
+
   const [activeCategory, setActiveCategory] = React.useState("ALL")
 
   return (
@@ -29,19 +30,19 @@ export function ItemHeader() {
 
         {/* Category Filters */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-10">
-          {categories.map((category) => (
+          {categories?.map((category:CategoryData) => (
             <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
+              key={category.id}
+              onClick={() => setActiveCategory(category.id)}
               className={cn(
                 "text-sm font-medium tracking-widest uppercase transition-colors",
                 // Apply active style if this is the selected category
-                activeCategory === category
+                activeCategory === category.id
                   ? "text-[#C0A975]"
                   : "text-zinc-500 hover:text-[#C0A975]"
               )}
             >
-              {category}
+              {category.name}
             </button>
           ))}
         </div>

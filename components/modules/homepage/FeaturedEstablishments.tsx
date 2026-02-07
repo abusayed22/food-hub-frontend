@@ -1,4 +1,4 @@
-// components/featured-establishments.tsx
+'use client';
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
@@ -7,38 +7,95 @@ import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { mealsFetch } from "@/actions/meal.action";
+import { getMealsParams } from "@/service/meal/meal.service";
+import { MenuData } from "@/constant/type";
+import { useRouter } from "next/navigation";
 
-// Sample data mirroring the content in the image
-const establishments = [
+
+
+
+
+export const STATIC_MEALS = [
   {
-    id: 1,
-    name: "Le Bernardin",
-    image: "https://img.freepik.com/free-photo/penne-pasta-tomato-sauce-with-chicken-tomatoes-wooden-table_2829-19739.jpg?semt=ais_hybrid&w=740&q=80", // Replace with your actual image paths
+    id: "meal-1",
+    name: "Truffle Infused Wagyu Burger",
+    image: "https://img.freepik.com/free-photo/delicious-burger-with-fresh-ingredients_23-2150857908.jpg?t=st=1709123456~exp=1709127056~hmac=example_hash_1",
+    price: 85,
     rating: 4.9,
-    cuisine: "FRENCH FINE DINING",
-    price: "$$$$",
+    cuisine: "Gourmet Burger",
+    category: { name: "Main Course" },
+    description: "A5 Japanese Wagyu beef patty topped with black truffle shavings and aged cheddar.",
+    isFeatured: true
   },
   {
-    id: 2,
-    name: "Narisawa",
-    image: "https://img.freepik.com/free-photo/roasted-pork-steak-vegetables-plate_1150-45292.jpg?t=st=1769762879~exp=1769766479~hmac=1c3819cd74d155355e01067dab55370af8286d8206ca38a482ade48b3857ddb7&w=740",
+    id: "meal-2",
+    name: "Pan-Seared Atlantic Salmon",
+    image: "https://img.freepik.com/free-photo/grilled-salmon-fillet-with-asparagus-broccoli_140725-3475.jpg?t=st=1709123456~exp=1709127056~hmac=example_hash_2",
+    price: 42,
+    rating: 4.7,
+    cuisine: "Seafood",
+    category: { name: "Seafood" },
+    description: "Fresh Atlantic salmon fillet served with grilled asparagus and lemon butter sauce.",
+    isFeatured: true
+  },
+  {
+    id: "meal-3",
+    name: "Lobster Thermidor",
+    image: "https://img.freepik.com/free-photo/lobster-with-lemon-lime-plate_140725-8664.jpg?t=st=1709123456~exp=1709127056~hmac=example_hash_3",
+    price: 120,
+    rating: 5.0,
+    cuisine: "French",
+    category: { name: "Fine Dining" },
+    description: "Whole lobster cooked in a rich wine sauce, stuffed back into the shell and browned.",
+    isFeatured: true
+  },
+  {
+    id: "meal-4",
+    name: "Authentic Italian Carbonara",
+    image: "https://img.freepik.com/free-photo/plate-pasta-carbonara-with-bacon_140725-7073.jpg?t=st=1709123456~exp=1709127056~hmac=example_hash_4",
+    price: 28,
+    rating: 4.6,
+    cuisine: "Italian",
+    category: { name: "Pasta" },
+    description: "Traditional Roman pasta with guanciale, pecorino romano, and fresh egg yolks.",
+    isFeatured: false
+  },
+  {
+    id: "meal-5",
+    name: "Gold Leaf Chocolate Dessert",
+    image: "https://img.freepik.com/free-photo/chocolate-cake-with-gold-dust_140725-4721.jpg?t=st=1709123456~exp=1709127056~hmac=example_hash_5",
+    price: 55,
     rating: 4.8,
-    cuisine: "JAPANESE CONTEMPORARY",
-    price: "$$$$",
+    cuisine: "Dessert",
+    category: { name: "Dessert" },
+    description: "Decadent dark chocolate mousse layered with edible 24k gold leaf.",
+    isFeatured: true
   },
   {
-    id: 3,
-    name: "Eleven Madison Park",
-    image: "https://img.freepik.com/free-photo/fresh-vegetable-salad-with-grilled-chicken-breast_2829-14101.jpg?semt=ais_hybrid&w=740&q=80",
-    rating: 4.9,
-    cuisine: "NEW AMERICAN",
-    price: "$$$$",
-  },
+    id: "meal-6",
+    name: "Spicy Thai Basil Chicken",
+    image: "https://img.freepik.com/free-photo/lavash-rolls-top-view-table_140725-7368.jpg?t=st=1769786235~exp=1769789835~hmac=f4c0f45a3e7934c7fc71a6a9d310bd4d9c9ab908dc4a9dd7fa9f5cfe10c0629e&w=740",
+    price: 22,
+    rating: 4.5,
+    cuisine: "Thai",
+    category: { name: "Asian" },
+    description: "Wok-tossed minced chicken with fresh thai basil, chilies, and a fried egg.",
+    isFeatured: false
+  }
 ];
 
-export function FeaturedEstablishments() {
+
+
+export function FeaturedEstablishments({meals}:{meals:MenuData[]}) {
+
+ 
+  const router = useRouter();
+
+
   return (
-    <section className="bg-zinc-950 py-16 text-white">
+    <section onClick={() => router.push("/meal-item")} className="bg-zinc-950 py-16 text-white">
+      
       <div className="container mx-auto px-4 md:px-6">
         {/* Section Header */}
         <div className="mb-10 flex items-center justify-between">
@@ -59,33 +116,35 @@ export function FeaturedEstablishments() {
 
         {/* Restaurant Cards Grid */}
         <div className="grid gap-8 md:grid-cols-3">
-          {establishments.map((restaurant) => (
+          {meals?.map((restaurant) => (
             <Card key={restaurant.id} className="border-none bg-transparent rounded-none overflow-hidden group">
-              {/* Image & Rating Badge */}
               <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
+                {restaurant.image && (
+                  <Image
                   src={restaurant.image}
                   alt={restaurant.name}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
+                )}
                 <Badge
                   className={cn(
                     "absolute right-4 top-4 flex items-center gap-1 rounded-none bg-black/70 px-2 py-1 text-xs font-medium text-[#C0A975] backdrop-blur-sm"
                   )}
                 >
                   <Star className="h-3 w-3 fill-current" />
-                  {restaurant.rating.toFixed(1)}
+                  {/* {restaurant.ratings.toFixed(1)} */}
                 </Badge>
               </div>
 
-              {/* Card Content */}
               <CardContent className="px-0 pt-4">
                 <h3 className="mb-1 text-xl font-serif font-medium text-white transition-colors group-hover:text-[#C0A975]">
                   {restaurant.name}
                 </h3>
                 <p className="text-sm text-zinc-400 uppercase tracking-wider">
-                  {restaurant.cuisine} <span className="text-[#C0A975] mx-1">•</span> {restaurant.price}
+                  {/* {restaurant.tags} */}
+                   <span className="text-[#C0A975] mx-1">•</span> 
+                  {restaurant.price}
                 </p>
               </CardContent>
             </Card>
@@ -107,5 +166,4 @@ export function FeaturedEstablishments() {
         </div>
       </div>
     </section>
-  );
-}
+  )}

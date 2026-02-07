@@ -14,7 +14,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Navbar } from "@/components/layout/Navbar"
 import { MealCard } from "../MealCard"
 import { Footer } from "@/components/layout/Footer"
-import { meals } from "../meal-items/MealItemSection"
+// import { meals } from "../meal-items/MealItemSection"
 
 // --- Mock Data ---
 const provider = {
@@ -36,7 +36,7 @@ const provider = {
 }
 
 // Reuse your meal data structure
-const providerMenu = meals;
+// const providerMenu = meals;
 
 export default function ProviderDetailsSection() {
   const [isFollowing, setIsFollowing] = React.useState(false)
@@ -158,7 +158,7 @@ export default function ProviderDetailsSection() {
             {/* TAB CONTENT: MENU */}
             <TabsContent value="menu" className="animate-in fade-in-50 slide-in-from-bottom-2 duration-500">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {providerMenu.map((meal) => (
+                    {/* {providerMenu.map((meal) => (
                         <MealCard
                             key={meal.id}
                             // id={meal.id}
@@ -169,7 +169,7 @@ export default function ProviderDetailsSection() {
                             rating={meal.rating}
                             category={meal.category}
                         />
-                    ))}
+                    ))} */}
                 </div>
                 <div className="mt-12 text-center">
                     <Button variant="outline" className="border-[#C0A975] text-[#C0A975] hover:bg-[#C0A975] hover:text-black rounded-none tracking-widest uppercase">

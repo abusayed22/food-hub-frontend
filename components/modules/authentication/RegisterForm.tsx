@@ -15,6 +15,7 @@ import z from "zod"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 
 
@@ -25,6 +26,8 @@ const formSchema = z.object({
 });
 
 export default function RegisterForm() {
+
+  const router = useRouter();
 
   const form = useForm({
     defaultValues: {
@@ -46,6 +49,7 @@ export default function RegisterForm() {
         }
 
         toast.success("User Created Successfully", { id: toastId });
+        router.push("/login");
       } catch (err) {
         toast.error("Something went wrong, please try again.", { id: toastId });
       }

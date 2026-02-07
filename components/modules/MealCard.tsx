@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 const goldColor = "#C0A975";
 
 export interface MealCardProps {
+  id?: string; // Optional: Useful if you need to identify the item for the cart later
   title: string;
   description: string;
   price: number;
@@ -25,25 +26,26 @@ export interface MealCardProps {
   category: string;
 }
 
-
+// ✅ FIX: Destructure the props here
 export function MealCard({
-  title = "Gold Leaf Chocolate",
-  description = "Valrhona dark chocolate sphere, edible 24k gold, warm caramel pour.",
-  price = 45,
-  image = "https://img.freepik.com/free-psd/roasted-chicken-dinner-platter-delicious-feast_632498-25445.jpg?ga=GA1.1.1221827327.1769762132&semt=ais_hybrid&w=740&q=80", // Replace with your actual image path
-  rating = 4.9,
-  category = "DESSERTS",
+  title,
+  description,
+  price,
+  image,
+  rating,
+  category
 }: MealCardProps) {
+
   return (
-    <Card className="w-full max-w-sm overflow-hidden rounded-none border-none bg-zinc-950 shadow-xl">
+    <Card className="w-full max-w-sm overflow-hidden rounded-none border-none bg-zinc-950 shadow-xl group">
       {/* Image Header & Rating Badge */}
       <CardHeader className="relative p-0">
-        <div className="aspect-[4/3] relative">
+        <div className="aspect-[4/3] relative overflow-hidden">
           <Image
-            src={image}
+            src={image || "/placeholder.jpg"} // Fallback image
             alt={title}
             fill
-            className="object-cover"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
           <Badge
             className={cn(
@@ -52,7 +54,8 @@ export function MealCard({
             style={{ color: goldColor }}
           >
             <Star className="h-3 w-3 fill-current" />
-            {rating.toFixed(1)}
+            {/* Safe check for rating */}
+            {typeof rating === 'number' ? rating.toFixed(1) : "N/A"}
           </Badge>
         </div>
       </CardHeader>
@@ -61,19 +64,19 @@ export function MealCard({
       <CardContent className="p-6">
         <div className="mb-2 flex items-start justify-between">
           <h3
-            className="text-xl font-serif font-medium text-white"
+            className="text-xl font-serif font-medium text-white line-clamp-1"
             style={{ color: goldColor }}
           >
             {title}
           </h3>
           <span
-            className="text-lg font-medium"
+            className="text-lg font-medium whitespace-nowrap ml-2"
             style={{ color: goldColor }}
           >
             ${price}
           </span>
         </div>
-        <p className="text-sm leading-relaxed text-zinc-400">
+        <p className="text-sm leading-relaxed text-zinc-400 line-clamp-2 h-10">
           {description}
         </p>
 
@@ -81,16 +84,17 @@ export function MealCard({
 
         {/* Footer: Category & Add Button */}
         <CardFooter className="p-0 flex items-center justify-between">
-          <span className="text-xs font-medium uppercase tracking-widest text-zinc-500">
+          <span className="text-xs font-medium uppercase tracking-widest text-zinc-500 truncate mr-2">
             {category}
           </span>
           <Button
             variant="outline"
             size="sm"
             className={cn(
-              "flex items-center gap-1 rounded-none border transition-colors hover:bg-[#C0A975] hover:text-black"
+              "flex items-center gap-1 rounded-none border transition-colors",
+              "border-[#C0A975] text-[#C0A975]",
+              "hover:bg-[#C0A975] hover:text-black"
             )}
-            style={{ borderColor: goldColor, color: goldColor }}
           >
             <Plus className="h-4 w-4" />
             ADD TO ORDER

@@ -1,129 +1,97 @@
+// components/modules/meal-item/MealItemSection.tsx
 import React from 'react'
-import { MealCard } from '../MealCard'
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { MealCard } from '../MealCard'
 import { ItemHeader } from './ItemHeader'
+import { CategoryData, MenuData } from '@/constant/type'
 
-const goldColor = "#C0A975";
-
-export interface MealCardProps {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  image: string;
-  rating: number;
-  category: string;
+// --- Types ---
+export interface MetaData {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
 }
 
+interface MealItemSectionProps {
+  data: MenuData[];
+  meta?: MetaData;
+  categories: CategoryData[];
+  selectedCategory?: string; // Passed from page.tsx (searchParams.category)
+}
 
+const MealItemSection = ({ 
+  data: meals, 
+  meta, 
+  categories,
+  selectedCategory = 'all' 
+}: MealItemSectionProps) => {
 
+  // 1. Logic for Dynamic Title (Server Side)
+  // We handle the text formatting here without needing client hooks
+  const displayTitle = selectedCategory === 'all' 
+    ? "Signature Dishes" 
+    : selectedCategory.replace(/-/g, " ");
 
- export const meals: MealCardProps[] = [
-  {
-    id: "1",
-    title: "Gold Leaf Chocolate",
-    description: "Valrhona dark chocolate sphere, edible 24k gold, warm caramel pour.",
-    price: 45,
-    image: "https://img.freepik.com/free-photo/lavash-rolls-top-view-table_140725-7368.jpg?t=st=1769786235~exp=1769789835~hmac=f4c0f45a3e7934c7fc71a6a9d310bd4d9c9ab908dc4a9dd7fa9f5cfe10c0629e&w=740", // Make sure to add this image to public/images
-    rating: 4.9,
-    category: "Desserts",
-  },
-  {
-    id: "2",
-    title: "Wagyu Truffle Burger",
-    description: "A5 Japanese Wagyu beef, shaved black truffle, brioche bun, aged cheddar.",
-    price: 85,
-    image: "https://img.freepik.com/premium-photo/topdown-view-hearty-meal-grilled-chicken-fries-fresh-salad_1270611-7398.jpg?w=740",
-    rating: 4.8,
-    category: "Main Course",
-  },
-  {
-    id: "3",
-    title: "Lobster Thermidor",
-    description: "Whole Maine lobster, cognac cream sauce, gruyère cheese crust, wild rice.",
-    price: 120,
-    image: "https://img.freepik.com/free-photo/penne-pasta-tomato-sauce-with-chicken-tomatoes-wooden-table_2829-19739.jpg?t=st=1769785824~exp=1769789424~hmac=2bad0778998b4412ad57123a5674d77c5169af3c4ba2485310746818ff3890c4&w=740",
-    rating: 5.0,
-    category: "Seafood",
-  },
-  {
-    id: "4",
-    title: "Saffron Risotto",
-    description: "Acquerello rice, Iranian saffron, parmigiano reggiano, gold dust.",
-    price: 55,
-    image: "https://img.freepik.com/free-photo/lavash-rolls-with-stuffings-tomatoes_114579-3418.jpg?t=st=1769785698~exp=1769789298~hmac=8898fc71e37c1c7a9488a27c0f51b70b96539e93bc65ea3661d68461247d472f&w=740",
-    rating: 4.7,
-    category: "Vegetarian",
-  },
-  {
-    id: "5",
-    title: "Caviar & Blinis",
-    description: "Oscietra caviar, buckwheat blinis, crème fraîche, chives, egg mimosa.",
-    price: 150,
-    image: "https://img.freepik.com/free-photo/lavash-rolls-with-stuffings-tomatoes_114579-3418.jpg?t=st=1769785698~exp=1769789298~hmac=8898fc71e37c1c7a9488a27c0f51b70b96539e93bc65ea3661d68461247d472f&w=740",
-    rating: 4.9,
-    category: "Appetizers",
-  },
-  {
-    id: "6",
-    title: "Matcha Lava Cake",
-    description: "Warm ceremonial matcha filling, vanilla bean ice cream, sesame crisp.",
-    price: 35,
-    image: "https://img.freepik.com/free-psd/roasted-chicken-dinner-platter-delicious-feast_632498-25445.jpg?ga=GA1.1.1221827327.1769762132&semt=ais_hybrid&w=740&q=80",
-    rating: 4.6,
-    category: "Desserts",
-  },
-];
-
-
-
-
-const MealItemSection = () => {
   return (
-    <section className="bg-zinc-950 py-20">
+    <section className="bg-zinc-950 py-20 min-h-screen">
       <div className="container mx-auto px-4 md:px-6">
-        <ItemHeader />
+        
+        {/* 2. Client Component for Buttons */}
+        {/* We pass the categories to the interactive header */}
+        <ItemHeader categories={categories} />
+
         {/* Section Header */}
         <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="space-y-2">
             <span className="text-xs font-medium tracking-[0.2em] text-[#C0A975] uppercase">
-              Curated Menu
+              {selectedCategory === 'all' ? "Curated Menu" : "Selected Category"}
             </span>
-            <h2 className="text-3xl md:text-5xl font-serif font-medium text-white">
-              Signature Dishes
+            <h2 className="text-3xl md:text-5xl font-serif font-medium text-white capitalize">
+              {displayTitle}
             </h2>
           </div>
 
-          {/* <Button
-            asChild
-            variant="ghost"
-            className="group hidden md:inline-flex p-0 text-sm font-medium tracking-widest text-[#C0A975] hover:bg-transparent hover:text-[#D4B988]"
-          >
-            <Link href="/menu">
-              FULL MENU
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </Button> */}
+          {/* Optional: Desktop 'View All' Link */}
+          {/* <Button asChild variant="ghost" className="...">...</Button> */}
         </div>
 
-        {/* Meal Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-          {meals.map((meal) => (
-            <MealCard
-              key={meal.id}
-              title={meal.title}
-              description={meal.description}
-              price={meal.price}
-              image={meal.image}
-              rating={meal.rating}
-              category={meal.category}
-            />
-          ))}
-        </div>
+        {/* 3. Empty State Handling */}
+        {meals.length === 0 ? (
+           <div className="py-20 text-center text-zinc-500">
+              <p className="text-xl font-serif">No dishes found in this category.</p>
+              <Button variant="link" asChild className="text-[#C0A975] mt-4">
+                <Link href="/meal-item">View all dishes</Link>
+              </Button>
+           </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+            {meals.map((meal) => {
+              // 4. Safe Data Mapping
+              // Calculate average rating if your API returns an array of reviews
+              // const avgRating = meal.reviews?.length 
+              //   ? meal.reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / meal.reviews.length
+              //   : 5.0; // Default or meal.rating if it exists directly
 
-        {/* Mobile View All Button (Bottom) */}
+              return (
+                <MealCard
+                  key={meal.id}
+                  id={meal.id}
+                  title={meal.name} // Map 'name' to 'title'
+                  description={meal.description || "A delicate culinary masterpiece."}
+                  price={meal.price}
+                  image={meal.image || "/placeholder-food.jpg"}
+                  rating={meal.ratings}
+                  // Handle nested category object or fallback string
+                  category={typeof meal.category === 'object' ? meal.category?.name : "Fine Dining"}
+                />
+              )
+            })}
+          </div>
+        )}
+
+        {/* Mobile View All Button */}
         <div className="mt-12 flex justify-center md:hidden">
           <Button
             asChild
@@ -142,6 +110,3 @@ const MealItemSection = () => {
 }
 
 export default MealItemSection
-
-
-

@@ -8,6 +8,7 @@ export const env = createEnv({
         BETTER_AUTH_URL:z.url(),
         FRONTEND_BASE_URL:z.url(),
         BACKEND_BASE_URL:z.url(),
+        API_URL:z.url(),
     },
     // only client
     client:{
@@ -17,6 +18,7 @@ export const env = createEnv({
     },
     // run time
     runtimeEnv:{
+        API_URL: process.env.API_URL,
         BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
         NEXT_PUBLIC_TEST:process.env.NEXT_PUBLIC_TEST,
         FRONTEND_BASE_URL:process.env.FRONTEND_BASE_URL,
