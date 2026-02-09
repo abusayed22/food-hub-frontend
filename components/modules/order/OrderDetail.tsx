@@ -123,7 +123,7 @@ export default function OrderDetail({ order }: { order: Order }) {
             size="icon"
             onClick={() => router.back()}
             className="text-zinc-400 hover:text-white hover:bg-white/10"
-          >
+            >
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
@@ -147,7 +147,7 @@ export default function OrderDetail({ order }: { order: Order }) {
               disabled={isUpdating}
               onValueChange={handleStatusChange}
               defaultValue={order.status}
-            >
+              >
               <SelectTrigger className="bg-zinc-900 border-white/10 text-white focus:ring-[#C0A975]">
                 <SelectValue placeholder="Change Status" />
               </SelectTrigger>

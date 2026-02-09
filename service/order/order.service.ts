@@ -25,6 +25,17 @@ export interface GetOrderParams {
     sortOrder?: 'asc' | 'desc';
 }
 
+export interface GetUsersParams {
+  search?: string;      
+  role?: string;        
+  status?: string;      
+  verified?: string;    
+  page?: number | string;
+  limit?: number | string;
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc';
+}
+
 export interface getOrderOptions {
     cache?: string
     revalidate?: number;
@@ -277,7 +288,89 @@ export const orderService = {
             console.error(error)
             return { data: null, error: error };
         }
-    }
+    },
+    
+    adminOrderStatics: async () => {
+        try {
+            const cookieStore = await cookies();
+
+            const response = await fetch(`${API}/orders/admin/statics`, {
+                method: 'GET',
+                // next: { revalidate: 10 },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Cookie: cookieStore.toString()
+                },
+            });
+
+            const statsData = await response.json()
+            return { data: statsData, error: null }
+
+        } catch (error) {
+            console.error(error)
+            return { data: null, error: error };
+        }
+    },
+
+    adminFetchOrder: async (params: GetOrderParams, option: getOrderOptions, api: string) => {
+        try {
+            const url = new URL(`${api}/orders`)
+            const searchParams = url.searchParams;
+
+            // --- 1. Get Session & Append User ID ---
+            const { data: SessionData } = await userService.getSession();
+            const user_id = SessionData?.user?.id || SessionData?.id;
+
+            if (user_id) {
+                searchParams.append("user_id", user_id); // Append exact ID string
+            }
+
+            // --- 2. Append Filter Params ---
+            if (params) {
+                Object.entries(params).forEach(([key, value]) => {
+                    if (value !== undefined && value !== null && value !== '') {
+                        searchParams.append(key, String(value))
+                    }
+                })
+            };
+
+            const cookieStore = await cookies();
+
+            const config: RequestInit = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Cookie: cookieStore.toString()
+                }
+            };
+
+            // --- Cache Config ---
+            if (option?.cache) {
+                config.cache = option.cache as RequestCache
+            }
+
+            if (option?.revalidate) {
+                config.next = { revalidate: option.revalidate }
+            }
+
+            // Updated tag to "orders" (was "Meals")
+            config.next = { ...config.next, tags: ["orders"] }
+
+            const res = await fetch(url.toString(), config);
+
+            if (!res.ok) {
+                const errorText = await res.text();
+                console.error("Fetch failed:", res.status, errorText);
+                return { data: null, error: `Error ${res.status}: ${errorText}` };
+            }
+
+            const data = await res.json();
+            return { data: data, error: null };
+
+        } catch (error) {
+            console.error(error)
+            return { data: null, error: error };
+        }
+    },
 }
 
 

@@ -6,9 +6,9 @@ import { HowWork } from '@/components/modules/homepage/HowWork'
 import { DishesSection } from '@/components/modules/homepage/DishesSection'
 import { SignatureDishesSection } from '@/components/modules/homepage/SigninatureDishSection'
 import { TestimonialSection } from '@/components/modules/homepage/TestimonialSection'
-import { fetchCategories } from '@/service/category/category.service'
 import { getMealsParams } from '@/service/meal/meal.service'
 import { userService } from '@/service/user/user.service'
+import { categoriesService } from '@/service/category/category.service'
 
 
 export const dynamic = "force-dynamic";
@@ -32,7 +32,7 @@ const currentPage = Number(params.page) || 1;
 const paramsObj = {...params,limit: 12, page:currentPage}
 
 
-  const {data:categoriesData,error} = await fetchCategories();
+  const {data:categoriesData,error} = await categoriesService.fetchCategories();
   const categories = categoriesData.data;
 
    const { data:mealData } = await mealsFetch(

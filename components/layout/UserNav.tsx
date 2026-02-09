@@ -74,7 +74,7 @@ const {logout,isLoading:logoutLoading} = useLogout()
                 <div className="flex flex-col gap-2">
                     {/* Admin Link */}
                     {user.role === 'ADMIN' && (
-                        <Link href="/admin/dashboard" className="flex items-center gap-3 p-3 rounded-md hover:bg-white/5 transition-colors text-zinc-300 hover:text-[#C0A975]">
+                        <Link href="/admin-dashboard" className="flex items-center gap-3 p-3 rounded-md hover:bg-white/5 transition-colors text-zinc-300 hover:text-[#C0A975]">
                             <LayoutDashboard className="h-5 w-5" />
                             <span>Admin Dashboard</span>
                         </Link>

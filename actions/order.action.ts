@@ -4,7 +4,7 @@ import { env } from "@/env";
 import { CreateOrderParams, getOrderOptions, GetOrderParams, OrderItemInput, orderService } from "@/service/order/order.service";
 import { generateOrderNumber } from "@/utils/uniqueOrderNumberGenerate";
 
-import { revalidateTag, updateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 interface orderFormValue {
    customerPhone:string;
@@ -67,3 +67,6 @@ export async function orderFetch(params: GetOrderParams,option:getOrderOptions) 
     const { data, error } = await orderService.fetchOrder(params, option,API);
     return { data, error };
 }
+
+
+

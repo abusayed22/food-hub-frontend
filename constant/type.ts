@@ -16,8 +16,6 @@ export interface AuthUser {
   role: UserRole;
   phone: string | null;
   status: string;
-  // Use 'string' if this comes from JSON/API. 
-  // Use 'Date' if this comes directly from a Prisma/ORM object.
   createdAt: string; 
   updatedAt: string; 
 }
